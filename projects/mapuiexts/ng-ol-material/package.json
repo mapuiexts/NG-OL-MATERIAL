@@ -1,0 +1,31 @@
+{
+  "name": "@mapuiexts/ng-ol-material",
+  "homepage": "https://github.com/mapuiexts/NG-OL-MATERIAL",
+  "version": "0.0.1",
+  "description": "Angular UI Component Library based on OpenLayers and Angular Material Design",
+  "keywords": [
+    "maps",
+    "gis",
+    "openLayers",
+    "angular",
+    "material",
+    "material design",
+    "angular material",
+    "angular material design"     
+  ],
+  "author": "Paulo Aragao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mapuiexts/NG-OL-MATERIAL/issues"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=18.1.0",
+    "@angular/core": ">=18.1.0",
+    "@angular/material": ">=18.1.0",
+    "ol": ">=9.2.4"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
