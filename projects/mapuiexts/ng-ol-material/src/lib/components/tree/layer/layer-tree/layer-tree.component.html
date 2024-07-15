@@ -1,0 +1,26 @@
+<mat-tree [treeControl]="treeControl" [dataSource]="dataSource">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding matTreeNodePaddingIndent="10">
+    <!-- use a disabled button to provide padding for tree leaf -->
+    <button mat-icon-button disabled></button>
+    <mat-checkbox class="checklist-leaf-node"
+      [checked]="checklistSelection.isSelected(node)"
+      (change)="onLeafNodeChecked($event, node)"
+    />
+    {{ node.name }}
+  </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+  <mat-tree-node *matTreeNodeDef="let node; when:hasChild" matTreeNodePadding matTreeNodePaddingIndent="10">
+    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+    </button>
+    <mat-checkbox class="checklist-leaf-node"
+      [checked]="descendantsAllSelected(node)"
+      [indeterminate]="descendantsPartiallySelected(node)"
+      (change)="onParentNodeChecked($event, node)"
+    />
+    {{ node.name }}
+  </mat-tree-node>
+</mat-tree>

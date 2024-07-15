@@ -1,7 +1,7 @@
 {
   "name": "@mapuiexts/ng-ol-material",
   "homepage": "https://github.com/mapuiexts/NG-OL-MATERIAL",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Angular UI Component Library based on OpenLayers and Angular Material Design",
   "keywords": [
     "maps",

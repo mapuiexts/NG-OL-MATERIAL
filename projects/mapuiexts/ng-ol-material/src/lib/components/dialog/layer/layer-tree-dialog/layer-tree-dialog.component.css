@@ -1,0 +1,11 @@
+.nolm-layer-tree-dialog-container {
+    position: fixed;
+    top: 0;
+    height: auto;
+    left: 0;
+    min-width: 30%;
+    padding: 2px;
+    margin: 2px;
+    background-color: white;
+    border-radius: 2px;
+}
