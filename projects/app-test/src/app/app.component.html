@@ -7,6 +7,21 @@
       <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 2.5em; opacity: 0.5;'}">
         <nolm-layer-tree-button [map]="map"></nolm-layer-tree-button>
       </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 5.5em; opacity: 0.5;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Add Coordinate" [nolmAddCoordinate]="{map: map}">
+          <mat-icon aria-hidden="false" aria-label="Add Coordinate">location_on</mat-icon>
+        </button>
+      </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 8.5em; opacity: 0.5;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Measure" [matMenuTriggerFor]="measureMenu">
+          <mat-icon aria-hidden="false" aria-label="Measure">border_color</mat-icon>
+        </button>
+        <mat-menu #measureMenu="matMenu">
+          <button mat-menu-item [nolmGetDistance]="{map: map}">Get Distance</button>
+          <button mat-menu-item [nolmGetArea]="{map: map}">Get Area</button>
+          <button mat-menu-item [nolmClearMeasure]="{map: map}">Clear Measure</button>
+        </mat-menu>
+      </div>
     </nolm-map-controls>
   </nolm-map>
 </div>

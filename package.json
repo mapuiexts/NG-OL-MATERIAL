@@ -1,6 +1,6 @@
 {
-  "name": "ng-ol-material",
-  "version": "0.0.0",
+  "name": "ng-ol-material-test",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "ng-ol-material-test": "file:",
     "ol": "^9.2.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
