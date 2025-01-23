@@ -79,8 +79,6 @@ export class NolmGetPointInteractionService {
         }
 
         function drawStartHandler(event: DrawEvent) {
-          console.log('draw start');
-          console.log(event);
           sketch = event.feature;
           const geometry = sketch?.getGeometry() as Point;
           geomListener = geometry.on('change', function (event) {
@@ -97,15 +95,12 @@ export class NolmGetPointInteractionService {
               geometry: pointGeom,
             });
             observer.complete();
-            console.log('draw end');
-            console.log(pointGeom?.getCoordinates());
           }
         }
 
         function drawAbortHandler() {
           observer.next({ type: 'drawabort' });
           observer.complete();
-          console.log('draw abort');
         }
 
         function createSnap(snapOptions: any, map: Map) {
@@ -163,7 +158,6 @@ export class NolmGetPointInteractionService {
         }
 
         function unsubscribe() {
-          console.log('unsubscribe');
           removeInteraction(interaction);
           snap && map.removeInteraction(snap);
           snap = undefined;

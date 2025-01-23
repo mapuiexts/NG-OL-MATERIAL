@@ -1,0 +1,9 @@
+[mat-dialog-title] {
+  /* margin: -24px -24px 0px -24px !important; */
+  /* padding: 10px 24px; */
+  font-size: large;
+  /* background: #369; */
+  /* background: var(--primary); */
+  /* color: #fff; */
+  cursor: move;
+}

@@ -8,9 +8,13 @@
         <nolm-layer-tree-button [map]="map"></nolm-layer-tree-button>
       </div>
       <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 5.5em; opacity: 0.5;'}">
-        <button mat-mini-fab color="primary"  matTooltip="Add Coordinate" [nolmAddCoordinate]="{map: map}">
-          <mat-icon aria-hidden="false" aria-label="Add Coordinate">location_on</mat-icon>
+        <button mat-mini-fab color="primary"  matTooltip="Coordinate" [matMenuTriggerFor]="coordinateMenu">
+          <mat-icon aria-hidden="false" aria-label="Coordinate">place</mat-icon>
         </button>
+        <mat-menu #coordinateMenu="matMenu">
+          <button mat-menu-item [nolmAddCoordinate]="{map: map}">Add Coordinate</button>
+          <button mat-menu-item [nolmGoToCoordinate]="{map: map}">Go To Coordinate</button>
+        </mat-menu>
       </div>
       <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 8.5em; opacity: 0.5;'}">
         <button mat-mini-fab color="primary"  matTooltip="Measure" [matMenuTriggerFor]="measureMenu">

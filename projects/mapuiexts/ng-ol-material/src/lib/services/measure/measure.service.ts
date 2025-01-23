@@ -43,7 +43,6 @@ export class NolmMeasureService {
   constructor() {}
 
   getDistance(map: Map) {
-    console.log('getDistance');
     let isRunning = false;
     const source = this.getLayer(map).getSource() as
       | VectorSource<Feature<Geometry>>
@@ -92,7 +91,6 @@ export class NolmMeasureService {
           }
         },
         complete: () => {
-          console.log('complete');
           isRunning = false;
           subscription.unsubscribe();
         },
@@ -100,7 +98,6 @@ export class NolmMeasureService {
   }
 
   getArea(map: Map) {
-    console.log('getArea');
     let isRunning = false;
     const source = this.getLayer(map).getSource() as
       | VectorSource<Feature<Geometry>>
@@ -136,7 +133,6 @@ export class NolmMeasureService {
             this.overlays.push(measureOvelay);
           } else if (event.type === 'drawinprogress') {
             const geometry = event.geometry;
-            console.log('geometry', geometry);
             if (geometry instanceof Polygon) {
               const output = this.formatArea(geometry as Polygon);
               const tooltip = measureOvelay.getElement();
@@ -152,7 +148,6 @@ export class NolmMeasureService {
           }
         },
         complete: () => {
-          console.log('complete');
           isRunning = false;
           subscription.unsubscribe();
         },

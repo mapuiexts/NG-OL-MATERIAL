@@ -91,8 +91,6 @@ export class NolmGetLineInteractionService {
         }
 
         function drawStartHandler(event: DrawEvent) {
-          console.log('draw start');
-          console.log(event);
           sketch = event.feature;
           const geometry = sketch?.getGeometry() as LineString;
           geomListener = geometry.on('change', function (event) {
@@ -109,15 +107,12 @@ export class NolmGetLineInteractionService {
               geometry: lineGeom,
             });
             observer.complete();
-            console.log('draw end');
-            console.log(lineGeom?.getCoordinates());
           }
         }
 
         function drawAbortHandler() {
           observer.next({ type: 'drawabort' });
           observer.complete();
-          console.log('draw abort');
         }
 
         function createSnap(snapOptions: any, map: Map) {
@@ -176,7 +171,6 @@ export class NolmGetLineInteractionService {
         }
 
         function unsubscribe() {
-          console.log('unsubscribe');
           removeInteraction(interaction);
           snap && map.removeInteraction(snap);
           snap = undefined;

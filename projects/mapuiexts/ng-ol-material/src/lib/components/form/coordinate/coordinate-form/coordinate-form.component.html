@@ -1,0 +1,37 @@
+<form [formGroup] = "coordinateForm" class="nolm-coordinate-form">
+    <mat-form-field appearance="outline" class="nolm-coordinate-form-full-width">
+        <mat-label>Coordinate</mat-label>
+        <input matInput placeholder="x,y" formControlName="coordinate" name="coordinate" />
+        @if(coordinateForm.get('coordinate')?.value !== '') {
+            <button mat-icon-button matSuffix aria-label="Clear"  (click)="clearCoordinate()">
+                <mat-icon>close</mat-icon>
+            </button>
+        }
+        @if(coordinateForm.get('coordinate')?.hasError('pattern')) {
+            <mat-error>Invalid coordinate</mat-error>
+        }
+        @if(coordinateForm.get('coordinate')?.hasError('required')) {
+            <mat-error>Required field</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field  appearance="outline" class="nolm-coordinate-form-full-width">
+        <mat-label>Projection</mat-label>
+        <mat-select formControlName="projection" placeholder="projection">
+            @for (projection of projections; track projection) {
+                <mat-option value="{{projection}}">{{projection}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field  appearance="outline" class="nolm-coordinate-form-full-width">
+        <mat-label>Scale</mat-label>
+        <span matPrefix>&nbsp;1/</span>
+        <input type="number" matInput placeholder="scale" formControlName="scale" name="scale" min="0" step="50" />
+        @if(coordinateForm.get('scale')?.hasError('required')) {
+            <mat-error>Required field</mat-error>
+        }
+    </mat-form-field>
+    <div>
+        <button mat-button color="primary" (click)="onSubmit()" [disabled]="!coordinateForm.valid">OK</button>
+        <button mat-button color="primary" (click)="onClose()">Close</button>
+    </div>
+</form>

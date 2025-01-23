@@ -172,7 +172,6 @@ export class NolmLayerTreeComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('NolmLayerTreeComponent.ngOnInit', 'map', this.map);
     this.layerGroup = this.map.getLayerGroup();
     this._rebuildTreeNodes();
   }

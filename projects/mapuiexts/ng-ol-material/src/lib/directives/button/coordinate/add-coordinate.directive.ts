@@ -52,7 +52,6 @@ export class NolmAddCoordinateDirective implements OnDestroy {
       })
       .subscribe({
         next: (event) => {
-          console.log('event', event);
           if (event.type === 'drawend') {
             const coordinate = event.geometry?.getCoordinates();
             if (coordinate) {
@@ -65,7 +64,6 @@ export class NolmAddCoordinateDirective implements OnDestroy {
         },
 
         complete: () => {
-          console.log('complete');
           this.isRunning = false;
         },
       });

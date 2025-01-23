@@ -22,7 +22,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
     MatIconModule,
     MatTooltipModule,
     NolmMapModule,
-    NolmLayerTreeBottomSheetComponent,
   ],
   templateUrl: './layer-tree-button.component.html',
   styleUrl: './layer-tree-button.component.css',

@@ -1,0 +1,6 @@
+<div  cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragBoundary=".cdk-overlay-container">
+    <h3 mat-dialog-title cdkDragHandle>Coordinate</h3>
+    <mat-dialog-content>
+        <nolm-coordinate-form [nolmData] = "data" (nolmSubmit)="onSubmit($event)" (nolmClose)="onClose()"/>
+    </mat-dialog-content>
+</div>

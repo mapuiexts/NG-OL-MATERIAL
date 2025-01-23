@@ -8,6 +8,7 @@ export * from './lib/components/map/map/map-controls/map-controls.component';
 
 export * from './lib/directives/map/map/controls/map-control.directive';
 export * from './lib/directives/button/coordinate/add-coordinate.directive';
+export * from './lib/directives/button/coordinate/go-to-coordinate.directive';
 export * from './lib/directives/button/measure/get-distance.directive';
 export * from './lib/directives/button/measure/get-area.directive';
 export * from './lib/directives/button/measure/clear-measure.directive';
