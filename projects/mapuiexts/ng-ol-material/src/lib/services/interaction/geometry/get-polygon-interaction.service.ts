@@ -8,18 +8,15 @@ import Draw, { DrawEvent, Options as DrawOptions } from 'ol/interaction/Draw';
 import { unByKey } from 'ol/Observable';
 import { Observable, Observer } from 'rxjs';
 import { EventsKey } from 'ol/events';
+import { NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
 
-export interface NolmGetPolygonOptions {
-  type: 'drawstart' | 'drawend' | 'drawabort' | 'drawinprogress';
-  geometry?: Polygon;
-}
 
-const defaultStyle = new Style({
+export const defaultPolygonInteractionStyle = new Style({
   fill: new Fill({
-    color: 'rgba(255, 0, 0, 0.8)',
+    color: 'rgba(255, 0, 0, 0.5)',
   }),
   stroke: new Stroke({
-    color: 'rgba(255, 0, 0, 0.5)',
+    color: 'rgba(0, 0, 0, 0.5)',
     lineDash: [10, 10],
     width: 2,
   }),
@@ -40,19 +37,19 @@ const defaultStyle = new Style({
 export class NolmGetPolygonInteractionService {
   constructor() {}
 
-  getSubscription(
+  draw(
     map: Map,
     startMsg = 'Select start point on the map',
     continueMsg = 'Select next point or dbl-click to finish or &lt;esc&gt; to cancel',
     drawOptions: DrawOptions = {
       source: new VectorSource(),
       type: 'Polygon',
-      style: defaultStyle,
+      style: defaultPolygonInteractionStyle,
     },
     snapOptions: SnapOptions | undefined = undefined
-  ): Observable<NolmGetPolygonOptions> {
-    const subscription = new Observable<NolmGetPolygonOptions>(
-      (observer: Observer<NolmGetPolygonOptions>) => {
+  ): Observable<NolmGeomInteractionOptions> {
+    const subscription = new Observable<NolmGeomInteractionOptions>(
+      (observer: Observer<NolmGeomInteractionOptions>) => {
         let geomListener: EventsKey | EventsKey[] = [];
         // sketch feature initially is undefined
         let sketch: Feature<Geometry> | undefined = undefined;
@@ -124,7 +121,7 @@ export class NolmGetPolygonInteractionService {
           sketch = event.feature;
           const geometry = sketch?.getGeometry() as Polygon;
           geomListener = geometry?.on('change', function (event) {
-            observer.next({ type: 'drawinprogress', geometry: geometry });
+            observer.next({ type: 'drawinprogress', feature: sketch });
           });
           observer.next({ type: 'drawstart' });
         }
@@ -134,7 +131,7 @@ export class NolmGetPolygonInteractionService {
             const polygonGeom = event.feature.getGeometry() as Polygon;
             observer.next({
               type: 'drawend',
-              geometry: polygonGeom,
+              feature: event.feature,
             });
             observer.complete();
           }

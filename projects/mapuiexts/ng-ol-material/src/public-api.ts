@@ -12,10 +12,21 @@ export * from './lib/directives/button/coordinate/go-to-coordinate.directive';
 export * from './lib/directives/button/measure/get-distance.directive';
 export * from './lib/directives/button/measure/get-area.directive';
 export * from './lib/directives/button/measure/clear-measure.directive';
+export * from './lib/directives/button/draw/draw-linestring.directive';
+export * from './lib/directives/button/draw/draw-point.directive';
+export * from './lib/directives/button/draw/draw-polygon.directive';
+export * from './lib/directives/button/draw/draw-bbox.directive';
+export * from './lib/directives/button/wms/wms-get-feature-info.directive';
+export * from './lib/directives/button/wfs/wfs-get-feature.directive';
+export * from './lib/directives/button/wfs/wfs-get-feature-by-bbox.directive';
+export * from './lib/directives/button/wfs/wfs-get-feature-by-polygon.directive';
 
 export * from './lib/services/interaction/geometry/get-point-interaction.service';
-export * from './lib/services/interaction/geometry/get-line-interaction.service';
+export * from './lib/services/interaction/geometry/get-linestring-interaction.service';
 export * from './lib/services/interaction/geometry/get-polygon-interaction.service';
+export * from './lib/services/coordinate/coordinate.service';
+
+export * from './lib/types/interaction/geometry/get-geometry-options';
 
 export * from './lib/components/tree/tree.module';
 export * from './lib/components/tree/layer/layer-tree/layer-tree.component';

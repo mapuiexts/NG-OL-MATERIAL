@@ -1,29 +1,77 @@
-<div style="width: 100%; height: 100vh;">
+<div style="width: 100%; height: 100vh;" aria-hidden="false" aria-label="Map">
+  <!-- <mat-form-field> -->
+    <mat-checkbox [(ngModel)]="isVisibile"/>
+    <textarea matInput placeholder="WKT" [(ngModel)]="wkt" rows="10" cols="50"></textarea>
+  <!-- </mat-form-field>    -->
   <nolm-map [map]="map">
     <nolm-map-controls>
-      <div [map]="map" [nolmMapControl]="{style: 'bottom: 0.5em; left: 0.5em; opacity: 0.5;'}">
+      <div [map]="map" [nolmMapControl]="{style: 'bottom: 0.5em; left: 0.5em; opacity: 0.8;'}">
         <mat-slide-toggle>Toggle me!</mat-slide-toggle>
       </div>
-      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 2.5em; opacity: 0.5;'}">
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 2.5em; opacity: 0.8;'}">
         <nolm-layer-tree-button [map]="map"></nolm-layer-tree-button>
       </div>
-      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 5.5em; opacity: 0.5;'}">
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 5.5em; opacity: 0.8;'}">
         <button mat-mini-fab color="primary"  matTooltip="Coordinate" [matMenuTriggerFor]="coordinateMenu">
           <mat-icon aria-hidden="false" aria-label="Coordinate">place</mat-icon>
         </button>
         <mat-menu #coordinateMenu="matMenu">
-          <button mat-menu-item [nolmAddCoordinate]="{map: map}">Add Coordinate</button>
+          <button mat-menu-item [nolmAddCoordinate]="{map: map, button: {label: 'Copy', click: handleClickBinded}}">Add Coordinate</button>
           <button mat-menu-item [nolmGoToCoordinate]="{map: map}">Go To Coordinate</button>
         </mat-menu>
       </div>
-      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 8.5em; opacity: 0.5;'}">
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 8.5em; opacity: 0.8;'}">
         <button mat-mini-fab color="primary"  matTooltip="Measure" [matMenuTriggerFor]="measureMenu">
           <mat-icon aria-hidden="false" aria-label="Measure">border_color</mat-icon>
         </button>
-        <mat-menu #measureMenu="matMenu">
+        <mat-menu #measureMenu="matMenu" aria-hidden="false" aria-label="Measure">
           <button mat-menu-item [nolmGetDistance]="{map: map}">Get Distance</button>
           <button mat-menu-item [nolmGetArea]="{map: map}">Get Area</button>
           <button mat-menu-item [nolmClearMeasure]="{map: map}">Clear Measure</button>
+        </mat-menu>
+      </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 11.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  
+          matTooltip="Draw Polygon"  [nolmDrawPolygon]="{map: map, drawOptions:{source:source, type:'Polygon'}}" (onDraw)="onDrawPolygon($event)">
+          <mat-icon aria-hidden="false" aria-label="Draw Polygon">format_shapes</mat-icon>
+        </button>
+      </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 14.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  
+          matTooltip="Draw BBox"  [NolmDrawBBox]="{map: map, source: source}" (onDraw)="onDrawPolygon($event)">
+          <mat-icon aria-hidden="false" aria-label="Draw BBox">aspect_ration</mat-icon>
+        </button>
+      </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 17.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Draw Line"  [nolmDrawLineString]="{map: map, drawOptions:{source:source, type:'LineString'}}" (onDraw)="onDrawLine($event)">
+          <mat-icon aria-hidden="false" aria-label="Draw Line">linear_scale</mat-icon>
+        </button>
+      </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 20.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Draw Point"  [nolmDrawPoint]="{map: map, drawOptions:{source:source, type:'Point'}}" (onDraw)="onDrawPoint($event)">
+          <mat-icon aria-hidden="false" aria-label="Draw Point">control_point</mat-icon>
+        </button>
+      </div>
+      @if(isVisibile) {
+      <div [map]="map" [nolmMapControl]="{style: 'top: 0.5em; left: 23.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Clear Vector Layer" (click)="source.clear()">
+          <mat-icon aria-hidden="false" aria-label="Clear Vector Layer">clear</mat-icon>
+        </button>
+      </div>
+      }
+      <div [map]="map" [nolmMapControl]="{style: 'top: 6.5em; left: 0.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Feature Info" [nolmWmsGetFeatureInfo]="{map: map}">
+          <mat-icon aria-hidden="false" aria-label="Feature Info">info</mat-icon>
+        </button>
+      </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 9.5em; left: 0.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Wfs Search" [matMenuTriggerFor]="wfsSearchMenu">
+          <mat-icon aria-hidden="false" aria-label="Wfs Search">search</mat-icon>
+        </button>
+        <mat-menu #wfsSearchMenu="matMenu" aria-hidden="false" aria-label="Wfs Search">
+          <button mat-menu-item [nolmWfsGetFeature]="{map, url, source, wfsOptions}">Wfs Get Feature</button>
+          <button mat-menu-item [nolmWfsGetFeatureByBBox]="{map, url, source, wfsOptions}" (onSearch)="onSearch($event)">Wfs Get Feature by BBox</button>
+          <button mat-menu-item [nolmWfsGetFeatureByPolygon]="{map, url, source, wfsOptions}" (onSearch)="onSearch($event)">Wfs Get Feature by Polygon</button>
         </mat-menu>
       </div>
     </nolm-map-controls>

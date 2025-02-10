@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GetLineInteractionService } from './get-line-interaction.service';
+import { NolmGetLineStringInteractionService } from './get-linestring-interaction.service';
 
 describe('GetLineInteractionService', () => {
-  let service: GetLineInteractionService;
+  let service: NolmGetLineStringInteractionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GetLineInteractionService);
+    service = TestBed.inject(NolmGetLineStringInteractionService);
   });
 
   it('should be created', () => {

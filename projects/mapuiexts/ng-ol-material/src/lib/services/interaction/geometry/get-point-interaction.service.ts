@@ -4,22 +4,19 @@ import { Feature, Map, MapBrowserEvent, Overlay } from 'ol';
 import { Draw } from 'ol/interaction';
 import { Vector as VectorSource } from 'ol/source';
 import { Style, Fill, Circle } from 'ol/style';
-import { Geometry, Point } from 'ol/geom';
+import { Geometry } from 'ol/geom';
 import { DrawEvent, Options as DrawOptions } from 'ol/interaction/Draw';
 import Snap, { Options as SnapOptions } from 'ol/interaction/Snap';
 import { EventsKey } from 'ol/events';
 import { unByKey } from 'ol/Observable';
+import { type NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
 
-export interface NolmGetPointOptions {
-  type: 'drawstart' | 'drawend' | 'drawabort' | 'drawinprogress';
-  geometry?: Point;
-}
 
-const defaultStyle = new Style({
+export const defaultPointInteractionStyle = new Style({
   image: new Circle({
     radius: 5,
     fill: new Fill({
-      color: '#ffcc33',
+      color: '#ff0000',
     }),
   }),
 });
@@ -32,18 +29,18 @@ const defaultMsg = 'Select Point (&lt;esc&gt; to Cancel)';
 export class NolmGetPointInteractionService {
   constructor() {}
 
-  getSubscription(
+  draw(
     map: Map,
     msg = defaultMsg,
     drawOptions: DrawOptions = {
       source: new VectorSource(),
       type: 'Point',
-      style: defaultStyle,
+      style: defaultPointInteractionStyle,
     },
     snapOptions: SnapOptions | undefined = undefined
-  ): Observable<NolmGetPointOptions> {
+  ): Observable<NolmGeomInteractionOptions> {
     const subscription = new Observable(
-      (observer: Observer<NolmGetPointOptions>) => {
+      (observer: Observer<NolmGeomInteractionOptions>) => {
         //create interaction
         const interaction = createInteraction(map, drawOptions);
         // add snap interaction
@@ -80,20 +77,26 @@ export class NolmGetPointInteractionService {
 
         function drawStartHandler(event: DrawEvent) {
           sketch = event.feature;
-          const geometry = sketch?.getGeometry() as Point;
-          geomListener = geometry.on('change', function (event) {
-            observer.next({ type: 'drawinprogress', geometry: geometry });
-          });
+          //const feature = event.feature;
+          const geometry = sketch?.getGeometry();
+          if(sketch && geometry) {
+            geomListener = geometry.on('change', function (event) {
+              observer.next({ 
+                type: 'drawinprogress', 
+                //geometry: geometry, 
+                feature: sketch});
+            });
+          }
           observer.next({ type: 'drawstart' });
         }
 
         function drawEndHandler(event: DrawEvent) {
           if (event.feature) {
-            const pointGeom = event.feature.getGeometry() as Point;
             observer.next({
               type: 'drawend',
-              geometry: pointGeom,
+              feature: event.feature,
             });
+            
             observer.complete();
           }
         }

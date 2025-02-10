@@ -11,13 +11,10 @@ import { Options as SnapOptions } from 'ol/interaction/Snap';
 import { Options as DrawOptions } from 'ol/interaction/Draw';
 import { unByKey } from 'ol/Observable';
 import { EventsKey } from 'ol/events';
+import { NolmGeomInteractionOptions } from '../../../../public-api';
 
-export interface NolmGetLineOptions {
-  type: 'drawstart' | 'drawend' | 'drawabort' | 'drawinprogress';
-  geometry?: LineString;
-}
 
-const defaultStyle = new Style({
+export const defaultLineStringInteractionStyle = new Style({
   fill: new Fill({
     color: 'rgba(255, 0, 0, 0.8)',
   }),
@@ -40,22 +37,22 @@ const defaultStyle = new Style({
 @Injectable({
   providedIn: 'root',
 })
-export class NolmGetLineInteractionService {
+export class NolmGetLineStringInteractionService {
   constructor() {}
 
-  getSubscription(
+  draw(
     map: Map,
     startMsg = 'Select start point',
     continueMsg = 'Select next point or dbl-click to add last point (&lt;esc&gt; to cancel)',
     drawOptions: DrawOptions = {
       source: new VectorSource(),
       type: 'LineString',
-      style: defaultStyle,
+      style: defaultLineStringInteractionStyle,
     },
     snapOptions: SnapOptions | undefined = undefined
-  ): Observable<NolmGetLineOptions> {
+  ): Observable<NolmGeomInteractionOptions> {
     const subscription = new Observable(
-      (observer: Observer<NolmGetLineOptions>) => {
+      (observer: Observer<NolmGeomInteractionOptions>) => {
         // create tooltip and register method to handle pointermove event
         const tooltip = createTooltip(startMsg);
         map.addOverlay(tooltip);
@@ -94,20 +91,17 @@ export class NolmGetLineInteractionService {
           sketch = event.feature;
           const geometry = sketch?.getGeometry() as LineString;
           geomListener = geometry.on('change', function (event) {
-            observer.next({ type: 'drawinprogress', geometry: geometry });
+            observer.next({ type: 'drawinprogress', feature: sketch });
           });
           observer.next({ type: 'drawstart' });
         }
 
         function drawEndHandler(event: DrawEvent) {
-          if (event.feature) {
-            const lineGeom = event.feature.getGeometry() as LineString;
             observer.next({
               type: 'drawend',
-              geometry: lineGeom,
+              feature: event.feature,
             });
             observer.complete();
-          }
         }
 
         function drawAbortHandler() {

@@ -1,13 +1,19 @@
 import { Directive, inject, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Map } from 'ol';
+import { Feature, Map } from 'ol';
 import { NolmGetPointInteractionService } from '../../../services/interaction/geometry/get-point-interaction.service';
 import { NolmCoordinateService } from '../../../services/coordinate/coordinate.service';
 import { Circle, Fill, Style } from 'ol/style';
 import { Vector as VectorSource } from 'ol/source';
+import { Point } from 'ol/geom';
+import { Coordinate } from 'ol/coordinate';
 
 export interface NolmAddCoordinateOptions {
   map: Map;
+  button?: {
+    label: string;
+    click: (event: Event) => void;
+  }
 }
 
 @Directive({
@@ -15,6 +21,7 @@ export interface NolmAddCoordinateOptions {
   standalone: true,
   host: {
     '(click)': 'onClick()',
+    '[disabled]': 'isRunning',
   },
 })
 export class NolmAddCoordinateDirective implements OnDestroy {
@@ -29,10 +36,7 @@ export class NolmAddCoordinateDirective implements OnDestroy {
   constructor() {}
 
   onClick() {
-    if (this.isRunning) {
-      console.log('isRunning');
-      return;
-    }
+    this.isRunning = true;
 
     const msg = 'Pick point to add coordinate or &lt;esc&gt; to Cancel';
     const style = new Style({
@@ -45,7 +49,7 @@ export class NolmAddCoordinateDirective implements OnDestroy {
     });
 
     this.subscription = this.getPointInteraction
-      .getSubscription(this.nolmAddCoordinate.map, msg, {
+      .draw(this.nolmAddCoordinate.map, msg, {
         source: new VectorSource(),
         type: 'Point',
         style: style,
@@ -53,11 +57,13 @@ export class NolmAddCoordinateDirective implements OnDestroy {
       .subscribe({
         next: (event) => {
           if (event.type === 'drawend') {
-            const coordinate = event.geometry?.getCoordinates();
+            const feature = event.feature as Feature<Point>;
+            const coordinate = feature?.getGeometry()?.getCoordinates();
             if (coordinate) {
               this.coordinateService.addCoordinatePopup(
                 this.nolmAddCoordinate.map,
-                coordinate
+                coordinate,
+                this.nolmAddCoordinate.button
               );
             }
           }
@@ -67,7 +73,6 @@ export class NolmAddCoordinateDirective implements OnDestroy {
           this.isRunning = false;
         },
       });
-    this.isRunning = true;
   }
 
   ngOnDestroy() {

@@ -1,0 +1,6 @@
+<div  cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragBoundary=".cdk-overlay-container">
+    <h3 mat-dialog-title cdkDragHandle>Feature Info</h3>
+    <mat-dialog-content>
+        <nolm-feature-info-form [nolmData] = "data" (nolmClose)="onClose()"/>
+    </mat-dialog-content>
+</div>

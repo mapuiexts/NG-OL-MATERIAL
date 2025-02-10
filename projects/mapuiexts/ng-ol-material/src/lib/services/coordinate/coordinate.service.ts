@@ -5,13 +5,21 @@ import { transform } from 'ol/proj';
 import { METERS_PER_UNIT, Units } from 'ol/proj/Units';
 import { get as getProjection } from 'ol/proj/projections';
 
+export interface NolmCoordinateButton extends HTMLButtonElement {
+  nolmCoordinate?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class NolmCoordinateService {
   constructor() {}
 
-  addCoordinatePopup(map: Map, coordinate: Coordinate): void {
+  addCoordinatePopup(
+    map: Map,
+    coordinate: Coordinate,
+    button?: { label: string; click: (event: Event) => void }
+  ): void {
     //create popup element
     const popup = document.createElement('div');
     popup.className = 'nolm-ol-popup';
@@ -28,6 +36,17 @@ export class NolmCoordinateService {
     content.className = 'nolm-ol-popup-content';
     content.innerHTML = this.getPopupText(map, coordinate);
     popup.appendChild(content);
+    //create button element and add to popup
+    if (button) {
+      const buttonEl = document.createElement('button');
+      const customButtonEl = buttonEl as NolmCoordinateButton;
+      buttonEl.innerHTML = button.label;
+      customButtonEl.nolmCoordinate = coordinate.toString();
+      //buttonEl.addEventListener('click', button.click);
+      buttonEl.addEventListener('click', button.click);
+      
+      popup.appendChild(buttonEl);
+    }
     // create overlay to anchor popup to map
     const overlay = new Overlay({
       element: popup,
@@ -91,11 +110,6 @@ export class NolmCoordinateService {
             ${coordStr}
         </a>
       </code></div>
-      <div style='padding:5px;text-align:center' >
-        <button onclick='navigator.clipboard.writeText("${coordStr}")' >
-          Copy
-        </button>
-      </div>
     `;
     return text;
   }

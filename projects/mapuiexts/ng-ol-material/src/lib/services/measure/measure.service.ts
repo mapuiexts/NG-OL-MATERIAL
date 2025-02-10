@@ -9,14 +9,14 @@ import { Feature } from 'ol';
 import Geometry from 'ol/geom/Geometry';
 import { LineString, Polygon } from 'ol/geom';
 import { getLength, getArea } from 'ol/sphere';
-import { NolmGetLineInteractionService } from '../interaction/geometry/get-line-interaction.service';
+import { NolmGetLineStringInteractionService } from '../interaction/geometry/get-linestring-interaction.service';
 import { NolmGetPolygonInteractionService } from '../interaction/geometry/get-polygon-interaction.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NolmMeasureService {
-  private lineInteractionService = inject(NolmGetLineInteractionService);
+  private lineInteractionService = inject(NolmGetLineStringInteractionService);
   private polygonInteractionService = inject(NolmGetPolygonInteractionService);
   private vectorLayer: VectorLayer<Feature> | undefined;
   private overlays: Overlay[] = [];
@@ -59,7 +59,7 @@ export class NolmMeasureService {
       vertex: true,
     };
     let subscription: Subscription = this.lineInteractionService
-      .getSubscription(
+      .draw(
         map,
         'Click point to start length measure',
         'Click next point to continue or dbl-click to add last point (&lt;esc&gt; to cancel)', 
@@ -77,7 +77,8 @@ export class NolmMeasureService {
             }
             this.overlays.push(measureOvelay);
           } else if (event.type === 'drawinprogress') {
-            const geometry = event.geometry;
+            const feature = event.feature as Feature<LineString>;
+            const geometry = feature.getGeometry();
             const output = this.formatLength(geometry as LineString);
             const tooltip = measureOvelay.getElement();
             if (tooltip) {
@@ -114,7 +115,7 @@ export class NolmMeasureService {
       vertex: true,
     };
     let subscription: Subscription = this.polygonInteractionService
-      .getSubscription(
+      .draw(
         map,
         'Click point to start area measure',
         'Click next point or select last point to finish (&lt;esc&gt; to cancel)', 
@@ -132,16 +133,15 @@ export class NolmMeasureService {
             }
             this.overlays.push(measureOvelay);
           } else if (event.type === 'drawinprogress') {
-            const geometry = event.geometry;
-            if (geometry instanceof Polygon) {
-              const output = this.formatArea(geometry as Polygon);
-              const tooltip = measureOvelay.getElement();
-              if (tooltip) {
-                tooltip.innerHTML = output;
-                measureOvelay.setPosition(
-                  (geometry as Polygon).getInteriorPoint().getCoordinates()
-                );
-              }
+            const feature = event.feature as Feature<Polygon>;
+            const geometry = feature.getGeometry();
+            const output = this.formatArea(geometry as Polygon);
+            const tooltip = measureOvelay.getElement();
+            if (tooltip) {
+              tooltip.innerHTML = output;
+              measureOvelay.setPosition(
+                (geometry as Polygon).getInteriorPoint().getCoordinates()
+              );
             }
           } else if (event.type === 'drawabort') {
             this.clearMeasureOverlay(map, measureOvelay);

@@ -6,6 +6,14 @@ import { NolmGetDistanceDirective } from '../../directives/button/measure/get-di
 import { NolmGetAreaDirective } from '../../directives/button/measure/get-area.directive';
 import { NolmClearMeasureDirective } from '../../directives/button/measure/clear-measure.directive';
 import { NolmGoToCoordinateDirective } from '../../directives/button/coordinate/go-to-coordinate.directive';
+import { NolmDrawLineStringDirective } from '../../directives/button/draw/draw-linestring.directive';
+import { NolmDrawPointDirective } from '../../directives/button/draw/draw-point.directive';
+import { NolmDrawPolygonDirective } from '../../directives/button/draw/draw-polygon.directive';
+import { NolmDrawBBoxDirective } from '../../directives/button/draw/draw-bbox.directive';
+import { NolmWmsGetFeatureInfoDirective } from '../../directives/button/wms/wms-get-feature-info.directive';
+import { NolmWfsGetFeatureDirective } from '../../directives/button/wfs/wfs-get-feature.directive';
+import { NolmWfsGetFeatureByBBoxDirective } from '../../directives/button/wfs/wfs-get-feature-by-bbox.directive';
+import { NolmWfsGetFeatureByPolygonDirective } from '../../directives/button/wfs/wfs-get-feature-by-polygon.directive';
 
 
 
@@ -18,7 +26,15 @@ import { NolmGoToCoordinateDirective } from '../../directives/button/coordinate/
     NolmGetDistanceDirective,
     NolmGetAreaDirective,
     NolmClearMeasureDirective,
-    NolmGoToCoordinateDirective
+    NolmGoToCoordinateDirective,
+    NolmDrawLineStringDirective,
+    NolmDrawPointDirective,
+    NolmDrawPolygonDirective,
+    NolmDrawBBoxDirective,
+    NolmWmsGetFeatureInfoDirective,
+    NolmWfsGetFeatureDirective,
+    NolmWfsGetFeatureByBBoxDirective,
+    NolmWfsGetFeatureByPolygonDirective,
   ],
   exports: [
     NolmLayerTreeButtonComponent,
@@ -26,7 +42,15 @@ import { NolmGoToCoordinateDirective } from '../../directives/button/coordinate/
     NolmGetDistanceDirective,
     NolmGetAreaDirective,
     NolmClearMeasureDirective,
-    NolmGoToCoordinateDirective
+    NolmGoToCoordinateDirective,
+    NolmDrawLineStringDirective,
+    NolmDrawPointDirective,
+    NolmDrawPolygonDirective,
+    NolmDrawBBoxDirective,
+    NolmWmsGetFeatureInfoDirective,
+    NolmWfsGetFeatureDirective,
+    NolmWfsGetFeatureByBBoxDirective,
+    NolmWfsGetFeatureByPolygonDirective
   ]
 })
 export class NolmButtonModule { }
