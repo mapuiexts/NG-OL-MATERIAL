@@ -5,12 +5,11 @@ import {
   DestroyRef,
   signal,
   effect,
-  computed,
   OnInit,
   OnDestroy,
 } from '@angular/core';
 import { NolmGetPointInteractionService } from '../../../services/interaction/geometry/get-point-interaction.service';
-import { NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
+import { NolmGeomInteractionOptions } from '../../../services/interaction/geometry/interaction-geometry-options.model';
 import { Map } from 'ol';
 import { Circle, Style } from 'ol/style';
 import { Vector as VectorSource } from 'ol/source';
@@ -22,7 +21,7 @@ import BaseLayer from 'ol/layer/Base';
 import { Group as GroupLayer } from 'ol/layer';
 import { Observer, Subscription } from 'rxjs';
 import { Point } from 'ol/geom';
-import { NolmWmsGetFeatureInfoService } from '../../../services/wms/wms-get-feature-info.service';
+import { NolmWmsGetFeatureInfoResult, NolmWmsGetFeatureInfoService } from '../../../services/wms/wms-get-feature-info.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -77,7 +76,7 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
   private wmsGetFeatureInfoService = inject(NolmWmsGetFeatureInfoService);
   private wmsGetFeatureInfoSubscription?: Subscription;
   private destroyRef = inject(DestroyRef);
-  features = signal<Feature[]>([]);
+  featuresInfo = signal<NolmWmsGetFeatureInfoResult[]>([]);
   isRunning = signal(false);
   private infoSnackBar = inject(MatSnackBar);
   private errorSnackBar = inject(MatSnackBar);
@@ -94,12 +93,12 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
       //is updated after opening the dialog/bottom sheet
       if (this.uiRef instanceof MatDialogRef) {
         this.uiRef.componentInstance.data = {
-          features: this.features(),
+          featuresInfo: this.featuresInfo(),
         };
       } else if (this.uiRef instanceof MatBottomSheetRef) {
         console.log('adding data to bottom sheet');
         this.uiRef.instance.data = {
-          features: this.features(),
+          featuresInfo: this.featuresInfo(),
         };
       }
     });
@@ -124,7 +123,7 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
     this.uiRef = this.dialog.open(NolmFeatureInfoDialogComponent, {
       //data: this.data,
       data: {
-        features: this.features(),
+        featuresInfo: this.featuresInfo(),
       },
       hasBackdrop: true,
     });
@@ -134,7 +133,7 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
     this.uiRef = this.bottomSheet.open(NolmFeatureInfoBottomSheetComponent, {
       //data: this.data(),
       data: {
-        features: this.features(),
+        featuresInfo: this.featuresInfo(),
       },
       hasBackdrop: true,
     });
@@ -145,7 +144,7 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
       return;
     }
     this.isRunning.set(true);
-    this.features.set([]);
+    this.featuresInfo.set([]);
     const msg = 'Select feature in the map or &lt;esc&gt; to Cancel';
 
     this.getPointSubscription = this.getPointInteraction
@@ -208,18 +207,17 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
             this.wmsGetFeatureInfoSubscription = this.wmsGetFeatureInfoService
               .fetch(map, layers, coordinate)
               .subscribe({
-                next: (features: Feature[]) => {
-                  if (features.length !== 0) {
-                    this.features.update((prevFeatures) => {
-                      return [...prevFeatures, ...features];
-                    });
-                  }
+                //next: (features: Feature[]) => {
+                next: (featureInfoResult: NolmWmsGetFeatureInfoResult) => {
+                  this.featuresInfo.update((prevFeaturesInfo) => {
+                    return [...prevFeaturesInfo, featureInfoResult];
+                  });
                 },
                 error: (error) => {
                   this.isRunning.set(false);
                   this.infoSnackBar.dismiss();
                   //this.showErrorSnackBar();
-                  if (this.features().length > 0) {
+                  if (this.featuresInfo().length > 0) {
                     this.openUI();
                   } else {
                     this.showNoFeatureFoundSnackBar();
@@ -228,7 +226,7 @@ export class NolmWmsGetFeatureInfoDirective implements OnInit, OnDestroy {
                 complete: () => {
                   this.isRunning.set(false);
                   this.infoSnackBar.dismiss();
-                  if (this.features().length > 0) {
+                  if (this.featuresInfo().length > 0) {
                     this.openUI();
                   } else {
                     this.showNoFeatureFoundSnackBar();

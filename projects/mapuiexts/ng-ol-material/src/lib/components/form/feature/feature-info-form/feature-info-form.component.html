@@ -1,29 +1,39 @@
-<form class="nolm-feature-info-form">
+<form tabindex="0" #form class="nolm-feature-info-form">
     <mat-accordion>
-      @for(feature of nolmData.features; track feature.getId()) {
-      <mat-expansion-panel>
+      @for(featureInfo of nolmData.featuresInfo; track featureInfo.feature.getId()) {
+      <mat-expansion-panel (opened)="isOpenPanel()">
         <mat-expansion-panel-header>
-          <mat-panel-title> {{ feature.getId() }} </mat-panel-title>
+          <mat-panel-title> {{ featureInfo.layer.get('name') }} </mat-panel-title>
+          <mat-panel-description> 
+            <!-- {{ featureInfo.feature.getId() }} -->
+            {{ getFeatureDescription(featureInfo) }}
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        <table
-          mat-table
-          [dataSource]="getDataSource(feature)"
+        <mat-table
+          [dataSource]="getDataSourceFromFeatureInfo(featureInfo)"
           class="mat-elevation-z8"
         >
           <!-- Name column-->
-          <ng-container matColumnDef="key">
+          <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.key }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
           </ng-container>
           <!-- Value column-->
           <ng-container matColumnDef="value">
             <th mat-header-cell *matHeaderCellDef>Value</th>
-            <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+            <!-- <td mat-cell *matCellDef="let element">{{ element.value }}</td> -->
+            <td mat-cell *matCellDef="let element">
+              @if(element.value && element.value.url) {
+              <a [href]="element.value.url" target="_blank">{{ element.value.text }}</a>
+              } @else {
+              {{ element.value }}
+              }
+            </td>
           </ng-container>
   
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
+        </mat-table>
       </mat-expansion-panel>
       }
     </mat-accordion>

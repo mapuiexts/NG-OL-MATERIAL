@@ -1,8 +1,9 @@
 <div style="width: 100%; height: 100vh;" aria-hidden="false" aria-label="Map">
-  <!-- <mat-form-field> -->
+  <!-- <div style="max-width: auto; height: 40vh">
     <mat-checkbox [(ngModel)]="isVisibile"/>
     <textarea matInput placeholder="WKT" [(ngModel)]="wkt" rows="10" cols="50"></textarea>
-  <!-- </mat-form-field>    -->
+  </div> -->
+  <div style="width: 100%; height: 60vh">
   <nolm-map [map]="map">
     <nolm-map-controls>
       <div [map]="map" [nolmMapControl]="{style: 'bottom: 0.5em; left: 0.5em; opacity: 0.8;'}">
@@ -74,6 +75,23 @@
           <button mat-menu-item [nolmWfsGetFeatureByPolygon]="{map, url, source, wfsOptions}" (onSearch)="onSearch($event)">Wfs Get Feature by Polygon</button>
         </mat-menu>
       </div>
+      <div [map]="map" [nolmMapControl]="{style: 'top: 12.5em; left: 0.5em; opacity: 0.8;'}">
+        <button mat-mini-fab color="primary"  matTooltip="Describe Feature Type" 
+                [nolmWfsDescribeFeatureType]="{url: url, wfsOptions:{typeNames:'GRB:Adres'}}"
+                (onFetch)="onFetchFeatureType($event)"
+        >
+          <mat-icon aria-hidden="false" aria-label="Describe Feature Type">info</mat-icon>
+        </button>
+      </div>
     </nolm-map-controls>
   </nolm-map>
+  </div>
+  <div style="max-width: auto; height: 40vh">
+    <!-- <nolm-wfs-feature-table  [nolmOptions]="{map, url, wfsOptions, layer, multipleSelection:true, 
+      filter: false, paginatorOptions: {pageSize: 3, pageSizeOptions:[5, 10, 15]}}"
+    /> -->
+    <nolm-wfs-feature-table  [nolmOptions]="{map, url, wfsOptions, layer, multipleSelection:true, 
+      filter: false}"
+    />
+  </div>
 </div>

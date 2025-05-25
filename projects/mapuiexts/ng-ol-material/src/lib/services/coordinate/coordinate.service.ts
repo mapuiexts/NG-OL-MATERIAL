@@ -26,7 +26,6 @@ export class NolmCoordinateService {
     //create closer element and add to popup
     const closer = document.createElement('a');
     closer.className = 'nolm-ol-popup-closer';
-    closer.href = '#';
     closer.addEventListener('click', () => {
       map.removeOverlay(overlay);
     });

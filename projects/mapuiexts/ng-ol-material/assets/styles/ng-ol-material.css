@@ -1,9 +1,10 @@
-.ol-dragbox {
+/* .ol-dragbox {
   background-color: rgba(255, 255, 255, 0.5);
   border-color: rgba(30, 144, 255, 1);
   border-width: 3px;
-}
+} */
 
+/* tooltip styles */
 .nolm-ol-tooltip {
   position: relative;
   background: rgba(0, 0, 0, 0.6);
@@ -53,6 +54,7 @@
   border-width: 3px;
 }
 
+/* Popup styles */
 .nolm-ol-popup {
   position: absolute;
   opacity: 0.7;
@@ -92,7 +94,106 @@
   position: absolute;
   top: 2px;
   right: 8px;
+  cursor: pointer;
 }
 .nolm-ol-popup-closer:after {
   content: "✖";
 }
+
+/* Responsive table styles */
+.nolm-table-responsive {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
+
+.nolm-table-responsive .mat-column-select {
+  overflow: initial;
+}
+
+.nolm-table-responsive mat-table {
+  /* width: 1200px;
+  max-width: 1200px; */
+  margin-bottom: 1rem;
+  display: table;
+  border-collapse: collapse;
+  margin: 0px;
+}
+
+.nolm-table-responsive mat-row,
+.nolm-table-responsive mat-header-row {
+  display: table-row;
+  
+}
+
+/* 
+.nolm-table-responsive [class^="mat-column-"], 
+.nolm-table-responsive [class*=' mat-column-']
+{
+  border-right: 1px solid  currentColor;
+} 
+*/
+
+.nolm-table-responsive mat-header-row {
+  /* color: white;
+  background-color:cornflowerblue; */
+  height: 3.0rem;
+  vertical-align: middle;
+}
+
+.nolm-table-responsive mat-cell,
+.nolm-table-responsive mat-header-cell {
+  word-wrap: initial;
+  display: table-cell;
+  line-break: unset;
+  width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+/* styes for feature info form */
+.nolm-feature-info-form {
+  min-width: 150px;
+  /* max-width: 400px; */
+  /* min-height: 400px; */
+  width: 100%;
+  /* border: 15px solid transparent; */
+  /* padding: 15px; */
+  /* margin: -24px -24px 0px -24px !important; */
+  overflow-x: auto;
+}
+
+.nolm-feature-info-form .mat-column-name {
+  /* width: 32px; */
+  border-right: 1px solid currentColor;
+  font-weight: bold;
+  font-size: small;
+  /* padding: 0px; */
+  /* padding-right: 24px; */
+  /* text-align: center; */
+  /* height: 0px; */
+}
+
+.nolm-feature-info-form .mat-column-value {
+  font-style: italic;
+}
+
+.nolm-feature-info-form .mat-mdc-row {
+  height: unset !important;
+}
+
+
+.nolm-feature-info-form tr:nth-child(even) {
+  background-color: lightgray; 
+}
+
+
+/* Style for even rows */
+/*
+.nolm-feature-info-form tr:nth-child(odd) {
+  background-color: white;
+}
+*/
+

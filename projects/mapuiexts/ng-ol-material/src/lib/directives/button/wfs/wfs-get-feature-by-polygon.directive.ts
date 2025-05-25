@@ -6,7 +6,7 @@ import { Options as SnapOptions } from 'ol/interaction/Snap';
 import { WriteGetFeatureOptions } from 'ol/format/WFS';
 import { intersects } from 'ol/format/filter';
 import { NolmGetPolygonInteractionService } from '../../../services/interaction/geometry/get-polygon-interaction.service'
-import { type NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
+import { type NolmGeomInteractionOptions } from '../../../services/interaction/geometry/interaction-geometry-options.model';
 import { Polygon } from 'ol/geom';
 import { NolmWfsGetFeatureService } from '../../../services/wfs/wfs-get-feature.service';
 import { MatSnackBar } from '@angular/material/snack-bar';

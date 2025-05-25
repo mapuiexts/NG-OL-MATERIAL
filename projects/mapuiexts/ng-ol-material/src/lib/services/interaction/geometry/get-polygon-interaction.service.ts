@@ -8,7 +8,7 @@ import Draw, { DrawEvent, Options as DrawOptions } from 'ol/interaction/Draw';
 import { unByKey } from 'ol/Observable';
 import { Observable, Observer } from 'rxjs';
 import { EventsKey } from 'ol/events';
-import { NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
+import { NolmGeomInteractionOptions } from './interaction-geometry-options.model';
 
 
 export const defaultPolygonInteractionStyle = new Style({

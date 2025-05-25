@@ -24,6 +24,8 @@ import { NolmWmsGetFeatureInfoDirective } from '@mapuiexts/ng-ol-material';
 import { NolmWfsGetFeatureDirective } from '@mapuiexts/ng-ol-material';
 import { NolmWfsGetFeatureByBBoxDirective } from '@mapuiexts/ng-ol-material';
 import { NolmWfsGetFeatureByPolygonDirective } from '@mapuiexts/ng-ol-material';
+import { NolmWfsDescribeFeatureTypeDirective } from '@mapuiexts/ng-ol-material';
+import { NolmWfsFeatureTableComponent } from '@mapuiexts/ng-ol-material';
 import { Feature } from 'ol';
 import { Geometry, LineString, Point, Polygon } from 'ol/geom';
 import { Coordinate } from 'ol/coordinate';
@@ -42,6 +44,7 @@ import GeoJSON from 'ol/format/GeoJSON';
     NolmDrawPolygonDirective, NolmDrawLineStringDirective, NolmDrawPointDirective, NolmDrawBBoxDirective,
     NolmWmsGetFeatureInfoDirective,
     NolmWfsGetFeatureDirective, NolmWfsGetFeatureByBBoxDirective, NolmWfsGetFeatureByPolygonDirective,
+    NolmWfsDescribeFeatureTypeDirective, NolmWfsFeatureTableComponent
     
   ],
   templateUrl: './app.component.html',
@@ -50,6 +53,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 export class AppComponent  {
   mapService = inject(MapService);
   map: Map = this.mapService.map;
+  layer = this.mapService.vectorLayer;
   source = this.mapService.vectorLayer.getSource() as VectorSource<Feature<Geometry>>;
   isVisibile = true;
   wkt = '';
@@ -119,5 +123,10 @@ export class AppComponent  {
       // return coordinates.toString();
     }).join('\n');
     
+  }
+
+  onFetchFeatureType(response: any): void {
+    console.log('WFS Describe Feature Type Response:', response);
+    this.wkt = JSON.stringify(response, null, 4);
   }
 }

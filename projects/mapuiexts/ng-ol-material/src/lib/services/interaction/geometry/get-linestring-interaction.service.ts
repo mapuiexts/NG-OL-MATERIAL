@@ -11,7 +11,7 @@ import { Options as SnapOptions } from 'ol/interaction/Snap';
 import { Options as DrawOptions } from 'ol/interaction/Draw';
 import { unByKey } from 'ol/Observable';
 import { EventsKey } from 'ol/events';
-import { NolmGeomInteractionOptions } from '../../../../public-api';
+import { NolmGeomInteractionOptions } from './interaction-geometry-options.model';
 
 
 export const defaultLineStringInteractionStyle = new Style({

@@ -42,6 +42,11 @@ type NolmHttpOptions =
     }
   | undefined;
 
+export interface NolmWmsGetFeatureInfoResult {
+  feature: Feature;
+  layer: Layer;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -56,8 +61,8 @@ export class NolmWmsGetFeatureInfoService {
     layers: Layer[],
     coordinate: Coordinate,
     options: NolmHttpOptions = undefined
-  ): Observable<Feature[]> {
-    const subscription = new Observable((observer: Observer<Feature[]>) => {
+  ): Observable<NolmWmsGetFeatureInfoResult> {
+    const subscription = new Observable((observer: Observer<NolmWmsGetFeatureInfoResult>) => {
       const projCode = map.getView().getProjection().getCode();
       const filteredLayers = layers.filter((layer) => {
         const source = layer.getSource();
@@ -101,7 +106,9 @@ export class NolmWmsGetFeatureInfoService {
                 if (resData) {
                   const format = new GeoJSON();
                   const features: Feature[] = format.readFeatures(resData);
-                  observer.next(features);
+                  features.forEach((feature) => {
+                    observer.next({feature: feature, layer: layerItem});
+                  });
                 }
                 currentNumberOfResponses++;
               },

@@ -9,7 +9,7 @@ import {
 import Snap, { Options as SnapOptions } from 'ol/interaction/Snap';
 import DragBox from 'ol/interaction/DragBox';
 import { platformModifierKeyOnly } from 'ol/events/condition';
-import { type NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options'
+import { type NolmGeomInteractionOptions } from './interaction-geometry-options.model';
 
 @Injectable({
   providedIn: 'root',

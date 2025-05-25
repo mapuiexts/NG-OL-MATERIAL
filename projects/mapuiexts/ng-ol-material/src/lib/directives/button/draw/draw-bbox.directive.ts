@@ -5,7 +5,7 @@ import { Feature, Map } from 'ol';
 import VectorSource from 'ol/source/Vector';
 import { Options as DragBoxOptions } from 'ol/interaction/DragBox';
 import { Options as SnapOptions } from 'ol/interaction/Snap';
-import { NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
+import { type NolmGeomInteractionOptions } from '../../../services/interaction/geometry/interaction-geometry-options.model'
 import { Polygon } from 'ol/geom';
 
 

@@ -9,7 +9,7 @@ import { DrawEvent, Options as DrawOptions } from 'ol/interaction/Draw';
 import Snap, { Options as SnapOptions } from 'ol/interaction/Snap';
 import { EventsKey } from 'ol/events';
 import { unByKey } from 'ol/Observable';
-import { type NolmGeomInteractionOptions } from '../../../types/interaction/geometry/get-geometry-options';
+import { type NolmGeomInteractionOptions } from './interaction-geometry-options.model';
 
 
 export const defaultPointInteractionStyle = new Style({
